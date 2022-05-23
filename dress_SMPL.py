@@ -88,7 +88,7 @@ def dress(smpl_tgt, body_src, garment, vert_inds, garment_tex = None):
 
     return ret_posed_interp
 
-path = '/BS/bharat/work/MGN_release/Multi-Garment_dataset/'
+path = '/Users/donatien/data/MGN_wardrobe/Multi-Garment_dataset/'
 all_scans = glob(path + '*')
 garment_classes = ['Pants', 'ShortPants', 'ShirtNoCoat', 'TShirtNoCoat', 'LongCoat']
 gar_dict = {}
@@ -102,10 +102,10 @@ if __name__ == '__main__':
 
     ## This file contains correspondances between garment vertices and smpl body
     fts_file = 'assets/garment_fts.pkl'
-    vert_indices, fts = pkl.load(open(fts_file))
+    vert_indices, fts = pkl.load(open(fts_file, 'rb'), encoding='latin1')
     fts['naked'] = ft
 
-    ## Choose any garmet type as source
+    ## Choose any garment type as source
     garment_type = 'TShirtNoCoat'
     index = np.random.randint(0, len(gar_dict[garment_type]))   ## Randomly pick from the digital wardrobe
     path = split(gar_dict[garment_type][index])[0]
