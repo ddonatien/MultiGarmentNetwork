@@ -39,7 +39,7 @@ def get_hres(v, f):
         - nf: faces of the upsampled
         - mapping: mapping from low res to high res
     """
-    from opendr.topology import loop_subdivider
+    from lib.topology import loop_subdivider
     (mapping, nf) = loop_subdivider(v, f)
     nv = mapping.dot(v.ravel()).reshape(-1, 3)
     return (nv, nf, mapping)

@@ -5,19 +5,18 @@ If you use this code please cite:
 
 Code author: Bharat
 '''
-import os
-from os.path import exists, join, split
+from os.path import join, split
 from glob import glob
 import numpy as np
-import cPickle as pkl
-from psbody.mesh import Mesh, MeshViewer, MeshViewers
+import pickle as pkl
+from psbody.mesh import Mesh, MeshViewers
 
 from utils.smpl_paths import SmplPaths
 from lib.ch_smpl import Smpl
 from dress_SMPL import load_smpl_from_file, pose_garment
 from utils.interpenetration_ind import remove_interpenetration_fast
 
-path = '/BS/bharat/work/MGN_release/Multi-Garment_dataset/'
+path = '/Users/donatien/data/MGN_wardrobe/Multi-Garment_dataset/'
 all_scans = glob(path + '*')
 garment_classes = ['Pants', 'ShortPants', 'ShirtNoCoat', 'TShirtNoCoat', 'LongCoat']
 gar_dict = {}
@@ -35,7 +34,7 @@ def visualize_garment(garment_path, with_tex = True):
     garment_unposed.set_texture_image(join(path, 'multi_tex.jpg'))
 
     ## Pose garments
-    dat = pkl.load(open(join(path, 'registration.pkl')))
+    dat = pkl.load(open(join(path, 'registration.pkl'), 'rb'), encoding='latin1')
     dat['gender'] = 'neutral'
     garment_posed = pose_garment(garment_unposed, vert_indices[garment_type], dat)
     garment_posed = remove_interpenetration_fast(garment_posed, garment_org_body)
@@ -63,7 +62,7 @@ if __name__ == '__main__':
 
     ## This file contains correspondances between garment vertices and smpl body
     fts_file = 'assets/garment_fts.pkl'
-    vert_indices, fts = pkl.load(open(fts_file))
+    vert_indices, fts = pkl.load(open(fts_file, 'rb'), encoding='latin1')
     fts['naked'] = ft
 
     ## Choose any garmet type

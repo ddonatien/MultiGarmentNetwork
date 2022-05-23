@@ -1,15 +1,13 @@
-import os
 import numpy as np
-from psbody.mesh import Mesh
-from os.path import join
-import cPickle as pkl
+import pickle as pkl
 from lib.serialization import backwards_compatibility_replacements, load_model
 from utils.geometry import get_hres
 import scipy.sparse as sp
 
 ## Set your paths here
-SMPL_PATH = '/BS/RVH/work/data/smpl_models/neutral/basicModel_neutral_lbs_10_207_0_v1.0.0.pkl'
-smpl_vt_ft_path = '/BS/bharat/work/MGN_final_release/assets/smpl_vt_ft.pkl'
+# SMPL_PATH = '/Users/donatien/data/SMPL_python_v.1.1.0/smpl/models/basicmodel_neutral_lbs_10_207_0_v1.1.0.pkl'
+SMPL_PATH = '/Users/donatien/data/SMPL_python_v.1.0.0/smpl/models/basicmodel_m_lbs_10_207_0_v1.0.0.pkl'
+smpl_vt_ft_path = '/Users/donatien/projects/MultiGarmentNetwork/assets/smpl_vt_ft.pkl'
 
 class SmplPaths:
     def __init__(self, project_dir='', exp_name='', gender='neutral', garment=''):
@@ -35,7 +33,7 @@ class SmplPaths:
 
     def get_hres_smpl_model_data(self):
 
-        dd = pkl.load(open(self.get_smpl_file()))
+        dd = pkl.load(open(self.get_smpl_file(), 'rb'), encoding='latin1')
         backwards_compatibility_replacements(dd)
 
         hv, hf, mapping = get_hres(dd['v_template'], dd['f'])
@@ -72,7 +70,9 @@ class SmplPaths:
 
     @staticmethod
     def get_vt_ft():
-        vt, ft = pkl.load(open(smpl_vt_ft_path))
+        with open(smpl_vt_ft_path, 'rb') as f:
+            vt, ft = pkl.load(f, encoding='latin1')
+        # vt, ft = pkl.load(smpl_vt_ft_path)
         return vt, ft
 
     @staticmethod
